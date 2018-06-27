@@ -66,16 +66,15 @@ def add_logger():
 
 def process_input(user_input):
     """ Process inputs """
-    if user_input == "a":
-        add_logger()
-    elif user_input == "?":
-        show_commands()
-    elif user_input == "k":
-        kill_logger()
-    elif user_input == "q":
-        all_done()
-    elif user_input == "s":
-        status()
+    commands = {
+        "a": add_logger,
+        "?": show_commands,
+        "k": kill_logger,
+        "q": all_done,
+        "s": status
+    }
+    func = commands.get(user_input, lambda: "invalid option")
+    func()
     return True
 
 def main():
