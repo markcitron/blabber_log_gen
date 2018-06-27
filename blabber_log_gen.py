@@ -1,9 +1,11 @@
 #!/usr/bin/python3
-""" Blabber log gen
-    
-    This script will generate one or more sample log sources which
-    will log into ./sample_logs.  These can be used to test or configure
-    the read_n_go log_manager and parsers.
+""" Blabber log gen - This script will generate one or more sample logs
+    This script is called from the start_blabber.py so that it will
+    clean up any logs started, etc.  If you start the logs directly from
+    here you can kill the log with cntl-c or whatever :-)
+
+    The log generator purposely generates an error so that you can have an
+    error to trigger off of (if needed).
     """
 
 import logging, argparse, time
@@ -11,9 +13,9 @@ import logging, argparse, time
 def make_parser():
     """ Create a parser to parse arguments """
     p = argparse.ArgumentParser(description="")
-    p.add_argument("--log_name", "-n", help="")
+    p.add_argument("--log_name", "-n", help="Name of log to create.  If multiple logs, log number will be appended to this name.")
     p.add_argument("--log_level", "-l", help="")
-    p.add_argument("--log_id", "-i", help="")
+    p.add_argument("--log_id", "-i", help="This is used to differentiate multiple logs.")
     return p
 
 def check_args(args):
@@ -58,7 +60,7 @@ def log_text(pointer):
         "O frabjous day! Callooh! Callay!” ",
         "    He chortled in his joy. ",
         "", 
-        "’Twas brillig, and the slithy toves ", 
+        "Twas brillig, and the slithy toves ", 
         "    Did gyre and gimble in the wabe: ",
         "All mimsy were the borogoves, ",
         "    And the mome raths outgrabe."
@@ -86,6 +88,8 @@ def main():
             next_line = log_text(lc)
             logging.info(next_line)
             lc = lc + 1
+        except (KayboardInterupt):
+            print("Keyboard Interupt, stopping ...")
         except Exception as e:
             logging.error("expected: {0}".format(str(e)))
             lc = 0
