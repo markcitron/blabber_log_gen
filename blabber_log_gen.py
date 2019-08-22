@@ -88,8 +88,8 @@ def main():
             next_line = log_text(lc)
             logging.info(next_line)
             lc = lc + 1
-        except (KayboardInterupt):
-            print("Keyboard Interupt, stopping ...")
+        except (KeyboardInterrupt):
+            raise
         except Exception as e:
             logging.error("expected: {0}".format(str(e)))
             lc = 0
